@@ -18,7 +18,13 @@ class RepositoryFileFilter:
         ".vscode",
         "dist",
         "build",
-        "repositories",
+        "package-lock.json",
+        "package.json",
+        "yarn.lock",
+        "pnpm-lock.yaml",
+        "poetry.lock",
+        "Cargo.lock",
+        "composer.lock",
     }
 
     # File extensions we want to keep
