@@ -13,7 +13,11 @@ from app.ai.ingestion.filter import RepositoryFileFilter
 from app.ai.ingestion.scanner import RepositoryScanner
 from app.core.exceptions import RepositoryNotFoundError
 from app.schemas.common import ApiResponse
-from app.schemas.repository import RepositoryUploadRequest
+from app.schemas.repository import (
+    RepositoryFileResponse,
+    RepositoryFilesResponse,
+)
+from app.ai.metadata import MetadataKeys
 
 
 class RepositoryService:
@@ -88,10 +92,87 @@ class RepositoryService:
             success=True,
             message="Repository scanned successfully.",
             data={
+                "repository_name": repository_name,
                 "total_files": len(scanned_files),
                 "supported_files": len(filtered_files),
                 "documents_loaded": len(documents),
                 "chunks_created": len(chunks),
                 "vector_database": "ChromaDB",
             },
+        )
+        
+    def get_repository_files(
+        self,
+        repository_name: str,
+    ) -> RepositoryFilesResponse:
+        """
+        Return unique files represented in the
+        repository's current ForgeAI index.
+        """
+
+        chroma_service = ChromaService(
+            collection_name=repository_name,
+        )
+
+        indexed_data = (
+            chroma_service.get_indexed_documents()
+        )
+
+        metadatas = indexed_data.get(
+            "metadatas",
+            [],
+        )
+
+        unique_files = {}
+
+        for metadata in metadatas:
+            file_path = metadata.get(
+                MetadataKeys.RELATIVE_PATH
+            )
+
+            if not file_path:
+                continue
+
+            if file_path in unique_files:
+                continue
+
+            unique_files[file_path] = (
+                RepositoryFileResponse(
+                    file_name=metadata.get(
+                        MetadataKeys.FILE_NAME,
+                        "",
+                    ),
+                    file_path=file_path,
+                    parent_directory=metadata.get(
+                        MetadataKeys.PARENT_DIRECTORY,
+                        "",
+                    ),
+                    extension=metadata.get(
+                        MetadataKeys.EXTENSION,
+                        "",
+                    ),
+                    file_size=int(
+                        metadata.get(
+                            MetadataKeys.FILE_SIZE,
+                            0,
+                        )
+                    ),
+                    last_modified=float(
+                        metadata.get(
+                            MetadataKeys.LAST_MODIFIED,
+                            0,
+                        )
+                    ),
+                )
+            )
+
+        files = sorted(
+            unique_files.values(),
+            key=lambda file: file.file_path.lower(),
+        )
+
+        return RepositoryFilesResponse(
+            repository_name=repository_name,
+            total_files=len(files),
+            files=files,
         )

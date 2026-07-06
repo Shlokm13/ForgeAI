@@ -4,7 +4,10 @@ Repository API Routes.
 
 from fastapi import APIRouter
 
-from app.schemas.repository import RepositoryUploadRequest
+from app.schemas.repository import (
+    RepositoryUploadRequest,
+    RepositoryFilesResponse,
+)
 from app.schemas.common import ApiResponse
 from app.services.repository_service import RepositoryService
 from pathlib import Path
@@ -17,6 +20,22 @@ router = APIRouter(
 
 # Service responsible for repository indexing.
 service = RepositoryService()
+
+@router.get(
+    "/{repository_name}/files",
+    response_model=RepositoryFilesResponse,
+)
+def get_repository_files(
+    repository_name: str,
+) -> RepositoryFilesResponse:
+    """
+    Return files represented in the current
+    ForgeAI repository index.
+    """
+
+    return service.get_repository_files(
+        repository_name
+    )
 
 
 @router.post(

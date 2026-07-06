@@ -56,13 +56,17 @@ class DocumentLoader:
                 metadata={
                     MetadataKeys.SOURCE: str(file_path.resolve()),
                     MetadataKeys.RELATIVE_PATH: str(
-                        file_path.relative_to(self.repository_root)
+                        file_path
+                        .relative_to(self.repository_root)
+                        .as_posix()
                     ),
                     MetadataKeys.FILE_NAME: file_path.name,
                     MetadataKeys.PARENT_DIRECTORY: str(
-                        file_path.parent.relative_to(
+                        file_path.parent
+                        .relative_to(
                             self.repository_root
                         )
+                        .as_posix()
                     ),
                     MetadataKeys.EXTENSION: file_path.suffix,
                     MetadataKeys.FILE_SIZE: file_path.stat().st_size,

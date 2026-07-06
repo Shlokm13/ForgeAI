@@ -6,6 +6,28 @@ This module contains all schemas related to repository operations.
 
 from pydantic import BaseModel, Field
 
+class RepositoryFileResponse(BaseModel):
+    """
+    Metadata for one file represented in the
+    ForgeAI repository index.
+    """
+
+    file_name: str
+    file_path: str
+    parent_directory: str
+    extension: str
+    file_size: int
+    last_modified: float
+
+
+class RepositoryFilesResponse(BaseModel):
+    """
+    Indexed repository files exposed to the frontend.
+    """
+
+    repository_name: str
+    total_files: int
+    files: list[RepositoryFileResponse]
 
 class RepositoryUploadRequest(BaseModel):
     """
