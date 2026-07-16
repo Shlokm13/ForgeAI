@@ -3,6 +3,7 @@ from langchain_core.documents import Document
 
 from app.ai.embeddings.embedding_service import EmbeddingModelProvider
 from app.config.settings import settings
+from chromadb import PersistentClient
 
 
 class ChromaService:
@@ -97,6 +98,13 @@ class ChromaService:
             k=k,
         )
         
+    def get_chunk_count(self) -> int:
+        """
+        Return the total number of indexed chunks
+        stored in this collection.
+        """
+
+        return self.vector_store._collection.count()
     def get_indexed_documents(
         self,
     ) -> dict:
@@ -166,6 +174,24 @@ class ChromaService:
             persist_directory=settings.CHROMA_DB_PATH,
             embedding_function=embedding_model,
         )
+        
+    @classmethod
+    def list_collections(cls) -> list[str]:
+        """
+        Return every indexed repository.
+        """
+
+        client = PersistentClient(
+            path=settings.CHROMA_DB_PATH
+        )
+
+        collections = client.list_collections()
+
+        return [
+            collection.name
+            for collection in collections
+        ]
+
 
 
 """

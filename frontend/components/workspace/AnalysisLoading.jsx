@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 
 const STEPS = [
-  "Retrieving semantic context",
-  "Expanding related repository context",
-  "Reconciling repository evidence",
-  "Generating technical analysis",
+  "Retrieving repository context",
+  "Expanding cross-file semantic evidence",
+  "Evaluating retrieved context",
+  "Generating grounded technical analysis",
 ];
 
 // Purely a generic loading visualization for perceived progress.
@@ -23,7 +23,7 @@ export default function AnalysisLoading() {
   }, []);
 
   return (
-    <div className="flex-1 flex items-center justify-center p-8">
+    <div className="flex items-center justify-center flex-1 p-8">
       <div className="w-full max-w-sm">
         <p className="text-[10px] font-medium tracking-widest text-forge-purpleLight uppercase mb-5 text-center">
           Analyzing Repository
@@ -31,7 +31,7 @@ export default function AnalysisLoading() {
 
         <div className="h-[3px] w-full bg-panel-elevated rounded-full overflow-hidden mb-6">
           <div
-            className="h-full bg-forge-purple transition-all duration-500 ease-out rounded-full"
+            className="h-full transition-all duration-500 ease-out rounded-full bg-forge-purple"
             style={{
               width: `${((activeIndex + 1) / STEPS.length) * 100}%`,
             }}

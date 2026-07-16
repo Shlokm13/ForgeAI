@@ -26,3 +26,11 @@ backend/repositories/
 # OS
 .DS_Store
 Thumbs.db
+
+#frontend
+frontend/node_modules/
+frontend/.next/
+frontend/build/
+frontend/.env.local
+frontend/dist/
+*.pyc

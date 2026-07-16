@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FolderGit2 } from "lucide-react";
 
 import {
   LayoutGrid,
@@ -37,6 +38,12 @@ const NAV_ITEMS = [
     href: "/repository",
     icon: FolderTree,
   },
+  {
+    key: "repositories",
+    label: "Repositories",
+    href: "/repositories",
+    icon: FolderGit2,
+  },
 ];
 
 export default function Sidebar({
@@ -60,11 +67,11 @@ export default function Sidebar({
               Repository
             </p>
 
-            <p className="text-sm font-medium text-text-primary font-mono truncate">
+            <p className="font-mono text-sm font-medium truncate text-text-primary">
               {repositoryName}
             </p>
 
-            <p className="text-xs text-text-muted font-mono">
+            <p className="font-mono text-xs text-text-muted">
               {branch}
             </p>
           </div>
@@ -109,7 +116,7 @@ export default function Sidebar({
 
         {!collapsed && (
           <>
-            <div className="mt-6 px-2">
+            <div className="px-2 mt-6">
   <p className="text-[10px] font-medium tracking-widest text-text-muted uppercase mb-2">
     Intelligence Scope
   </p>
@@ -132,7 +139,7 @@ export default function Sidebar({
   </dl>
 </div>
 
-    <div className="mt-5 px-2">
+    <div className="px-2 mt-5">
       <p className="text-[10px] font-medium tracking-widest text-text-muted uppercase mb-2">
         Analysis Modes
       </p>
@@ -188,7 +195,7 @@ function ContextRow({ label, value }) {
     <div className="flex items-center justify-between">
       <dt className="text-text-muted">{label}</dt>
 
-      <dd className="text-text-secondary font-mono">
+      <dd className="font-mono text-text-secondary">
         {value}
       </dd>
     </div>

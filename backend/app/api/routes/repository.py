@@ -11,6 +11,7 @@ from app.schemas.repository import (
 from app.schemas.common import ApiResponse
 from app.services.repository_service import RepositoryService
 from pathlib import Path
+from app.schemas.repository_list import RepositorySummary
 
 # Create the router for all repository-related endpoints.
 router = APIRouter(
@@ -52,3 +53,14 @@ def upload_repository(
     return service.upload_repository(
         Path(request.repository_path)
     )
+    
+@router.get(
+    "/list",
+    response_model=list[RepositorySummary],
+)
+def list_repositories() -> list[RepositorySummary]:
+    """
+    Return all indexed repositories.
+    """
+
+    return service.list_repositories()

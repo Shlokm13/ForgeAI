@@ -18,6 +18,7 @@ from app.schemas.repository import (
     RepositoryFilesResponse,
 )
 from app.ai.metadata import MetadataKeys
+from app.schemas.repository_list import RepositorySummary
 
 
 class RepositoryService:
@@ -176,3 +177,37 @@ class RepositoryService:
             total_files=len(files),
             files=files,
         )
+        
+    def list_repositories(
+        self,
+    ) -> list[RepositorySummary]:
+        """
+        Return every indexed repository.
+        """
+
+        collection_names = (
+            ChromaService.list_collections()
+        )
+
+        repositories = []
+
+        for name in collection_names:
+
+            vector_store = ChromaService(
+                collection_name=name,
+            )
+
+            chunk_count = (
+                vector_store.get_chunk_count()
+            )
+
+            repositories.append(
+                RepositorySummary(
+                    name=name,
+                    branch="main",
+                    indexed_files=0,
+                    indexed_chunks=chunk_count,
+                )
+            )
+
+        return repositories
