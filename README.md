@@ -1,753 +1,1031 @@
-# 🔥 ForgeAI
+<p align="center">
 
-## Production-Grade AI Software Engineering Mentor
+<img src="docs/logo-dark.png" width="140"/>
 
-ForgeAI is an AI-powered software engineering mentor designed to understand real-world codebases and answer architecture, implementation, and engineering questions using repository-grounded context.
+# ForgeAI
 
-Unlike a traditional chatbot, ForgeAI builds a semantic understanding of an entire software repository and uses a self-corrective Retrieval-Augmented Generation workflow to produce grounded technical explanations.
+### AI-Powered Repository Intelligence Platform
 
-The system can ingest both local repositories and GitHub repositories, build a persistent semantic index, retrieve relevant source code, evaluate retrieval quality, and automatically rewrite failed retrieval queries using a LangGraph-based Self-RAG workflow.
+**Understand software repositories through Retrieval-Augmented Generation, repository-aware semantic search, and LangGraph-powered self-corrective workflows.**
 
----
+<p>
 
-# 🚀 Core Capabilities
+<img src="https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white"/>
+<img src="https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi&logoColor=white"/>
+<img src="https://img.shields.io/badge/LangGraph-Agentic%20Workflow-7C3AED"/>
+<img src="https://img.shields.io/badge/LangChain-RAG-22C55E"/>
+<img src="https://img.shields.io/badge/ChromaDB-Vector%20Database-F59E0B"/>
+<img src="https://img.shields.io/badge/Next.js-Frontend-black?logo=next.js"/>
+<img src="https://img.shields.io/badge/License-MIT-success"/>
 
-## 📂 Repository Ingestion
+</p>
 
-ForgeAI can ingest software repositories from:
-
-- Local filesystem paths
-- GitHub repository URLs
-
-GitHub repositories are automatically cloned and existing repositories are updated using `git pull`.
-
----
-
-## 🔍 Intelligent Repository Scanning
-
-Repositories are recursively scanned to discover source files.
-
-The ingestion pipeline filters unnecessary files and directories such as:
-
-- `.git`
-- `node_modules`
-- virtual environments
-- build directories
-- generated lock files
-- unsupported file formats
-
-This reduces vector database noise and improves semantic retrieval quality.
+</p>
 
 ---
 
-## 📄 Repository-Aware Document Loading
+ForgeAI is an AI-powered repository intelligence platform that helps developers understand unfamiliar software repositories through repository-grounded Retrieval-Augmented Generation (RAG).
 
-Supported source files are converted into LangChain `Document` objects.
+Instead of behaving like a generic code chatbot, ForgeAI transforms an entire repository into a semantic knowledge base, retrieves implementation-aware context, evaluates retrieval quality, automatically rewrites weak retrieval queries, and generates evidence-grounded engineering explanations using a LangGraph-orchestrated workflow.
 
-Each document contains repository metadata such as:
+<p align="center">
+
+<img src="docs/banner.png"/>
+
+</p>
+
+---
+
+# 🎥 Demo
+
+<p align="center">
+
+<img src="docs/demo.gif"/>
+
+</p>
+
+### Repository Intelligence Workflow
 
 ```text
-file_name
-extension
-relative_path
-parent_directory
-file_size
-last_modified
-source
+GitHub Repository
+        │
+        ▼
+Repository Ingestion
+        │
+        ▼
+Semantic Repository Index
+        │
+        ▼
+Ask Engineering Question
+        │
+        ▼
+LangGraph Self-Corrective Workflow
+        │
+        ▼
+Evidence-Grounded Technical Answer
 ```
 
-This metadata allows ForgeAI to preserve repository structure during retrieval and answer generation.
+---
+
+# 🚀 Why ForgeAI?
+
+Understanding an unfamiliar software repository is one of the most time-consuming parts of software engineering.
+
+Developers often spend hours exploring folders, tracing function calls, and connecting implementation details spread across multiple files before understanding how a feature actually works.
+
+Traditional Retrieval-Augmented Generation systems retrieve semantically similar chunks and immediately generate responses.
+
+Software repositories introduce additional challenges:
+
+- implementation logic spans multiple files
+- architectural context is often more important than individual snippets
+- weak retrieval results produce misleading explanations
+- repository structure influences engineering reasoning
+- semantic similarity alone cannot capture implementation flow
+
+ForgeAI addresses these challenges through a repository-centric AI workflow that combines:
+
+- structured repository ingestion
+- semantic vector indexing
+- repository-aware retrieval
+- retrieval quality evaluation
+- automatic query rewriting
+- evidence-grounded answer generation
+
+The objective is not to build another chatbot.
+
+The objective is to help developers understand software systems.
 
 ---
 
-## ✂️ Semantic Code Chunking
+# ✨ Features
 
-Large source files are split into smaller chunks before embedding.
+## 📂 Repository Intelligence
 
-The chunking layer improves:
-
-- semantic retrieval
-- embedding precision
-- context relevance
-- LLM context efficiency
+- GitHub Repository Indexing
+- Local Repository Upload
+- Multi-Repository Workspace
+- Repository-aware Semantic Search
+- Repository File Explorer
+- Repository Metadata Preservation
 
 ---
 
-## 🧠 Semantic Repository Indexing
+## 🧠 AI Workflow
 
-Repository chunks are converted into vector embeddings and stored in ChromaDB.
+- LangGraph-based Self-Corrective RAG
+- Retrieval Grading
+- Automatic Query Rewriting
+- Repository Evidence Inspection
+- Grounded Engineering Explanations
+- Multi-hop Semantic Context Expansion
 
-Each repository receives its own Chroma collection.
+---
+
+## ⚙️ Backend Engineering
+
+- Modular Repository Ingestion Pipeline
+- ChromaDB Vector Collections
+- Explicit Workflow State
+- Deterministic Graph Routing
+- Repository Isolation
+- Production-inspired Backend Architecture
+
+---
+
+# 📸 Screenshots
+
+## Repository Workspace
+
+<p align="center">
+
+<img src="docs/repository-workspace.png"/>
+
+</p>
+
+Switch between multiple indexed repositories without rebuilding semantic indexes.
+
+---
+
+## Ask ForgeAI
+
+<p align="center">
+
+<img src="docs/ask-forgeai.png"/>
+
+</p>
+
+Ask repository-level engineering questions grounded in indexed source code.
+
+---
+
+## Evidence Panel
+
+<p align="center">
+
+<img src="docs/evidence-panel.png"/>
+
+</p>
+
+Inspect retrieved repository evidence used to generate the final response.
+
+---
+
+## Repository Explorer
+
+<p align="center">
+
+<img src="docs/repository-files.png"/>
+
+</p>
+
+Browse every indexed repository file represented inside the vector database.
+
+---
+
+# ⭐ What Makes ForgeAI Different?
+
+Most repository assistants follow a simple workflow:
 
 ```text
-Repository
+Question
     ↓
-Scanner
+Retrieve
     ↓
-File Filter
+Generate Answer
+```
+
+ForgeAI introduces an additional reasoning layer.
+
+```text
+Question
     ↓
-Document Loader
+Retrieve Repository Context
     ↓
-Text Splitter
+Evaluate Retrieval Quality
     ↓
-Embedding Model
+Rewrite Retrieval Query
     ↓
-ChromaDB Collection
+Retrieve Again
+    ↓
+Generate Grounded Answer
 ```
 
-This architecture provides repository-level vector isolation.
+Instead of assuming the first retrieval is sufficient, ForgeAI attempts to improve weak retrieval before generating the final response.
 
----
-
-# 🔄 Self-Corrective RAG with LangGraph
-
-ForgeAI uses LangGraph as the orchestration engine for its AI workflow.
-
-Instead of blindly trusting the first retrieval result, ForgeAI evaluates retrieval quality and automatically retries failed searches.
-
-```text
-START
-  ↓
-Initialize Query
-  ↓
-Retrieve Documents
-  ↓
-Grade Retrieval
-  ↓
-Is Context Relevant?
-  │
-  ├── YES ───────────────→ Generate Answer
-  │                              ↓
-  │                             END
-  │
-  └── NO
-       ↓
-   Rewrite Query
-       ↓
-   Retrieve Again
-       ↓
-   Grade Retrieval
-       ↓
-      ...
-```
-
-The workflow performs a maximum of five query rewrite attempts to guarantee termination and bound LLM and retrieval costs.
-
----
-
-## 🎯 Retrieval Grading
-
-After retrieving repository chunks, ForgeAI uses an LLM-based retrieval grader.
-
-The grader determines whether the retrieved repository context is relevant to the user's question.
-
-Possible decisions:
-
-```text
-relevant
-irrelevant
-```
-
-The grader does not control execution directly.
-
-Instead, it writes a decision signal into the LangGraph state.
-
-A deterministic routing function consumes this signal and decides the next graph step.
-
-```text
-Node
-↓
-Produces Decision Signal
-↓
-Conditional Edge
-↓
-Controls Execution
-```
-
-This separates AI reasoning from workflow control.
-
----
-
-## 🔁 Query Rewriting
-
-When retrieval is graded as irrelevant, ForgeAI automatically rewrites the semantic retrieval query.
-
-Example:
-
-```text
-Original Question:
-
-What is TMDB?
-```
-
-Initial retrieval may fail because the query is too vague.
-
-ForgeAI can rewrite the retrieval query as:
-
-```text
-TMDB references, The Movie Database API integration,
-movie metadata services, API clients, environment variables,
-API endpoints, or external movie database usage in this repository.
-```
-
-The rewritten query is then used for another semantic retrieval attempt.
-
----
-
-## 🧠 Original Intent vs Retrieval Query
-
-ForgeAI maintains two separate query representations.
-
-```text
-question
-↓
-Immutable user intent
-
-retrieval_query
-↓
-Mutable semantic search representation
-```
-
-Example:
-
-```text
-question:
-"What is TMDB?"
-
-retrieval_query:
-"TMDB API integrations, movie metadata services,
-API clients, environment variables, or endpoints"
-```
-
-The Self-RAG workflow can rewrite the retrieval query multiple times without modifying the user's original question.
-
-The final answer always addresses the original user intent.
-
----
-
-## ♻️ Bounded Self-Correction
-
-Self-corrective workflows introduce cyclic execution paths.
-
-Without a termination condition, the graph could execute indefinitely.
-
-ForgeAI maintains a retry counter inside the graph state.
-
-```text
-Initial Retrieval
-      ↓
-retry_count = 0
-
-Rewrite #1
-      ↓
-retry_count = 1
-
-...
-
-Rewrite #5
-      ↓
-retry_count = 5
-
-Maximum Retries Reached
-      ↓
-Generate Safe Answer
-```
-
-The retry counter represents rewritten retrieval attempts rather than total retrieval operations.
-
-This guarantees graph termination and controls LLM and embedding costs.
-
----
+This produces answers that are better grounded in repository implementation rather than relying solely on semantic similarity.
 
 # 🏗️ System Architecture
+
+ForgeAI follows a layered architecture that separates repository ingestion, vector indexing, AI orchestration, and API services into independent modules.
+
+Each layer owns a single responsibility, making the system modular, maintainable, and easy to extend.
+
+<p align="center">
+
+<img src="docs/architecture.png"/>
+
+</p>
+
+---
+
+## High-Level Request Lifecycle
 
 ```text
                     User
                       │
                       ▼
-                 FastAPI API
+               Next.js Frontend
                       │
                       ▼
-                RepositoryService
+                FastAPI Backend
                       │
         ┌─────────────┴─────────────┐
         │                           │
         ▼                           ▼
- Local Repository              GitHub Repository
-                                    │
-                                    ▼
-                              GitHub Cloner
+Repository Management          Query Service
+        │                           │
+        ▼                           ▼
+Repository Ingestion         LangGraph Workflow
+        │                           │
+        ▼                           ▼
+     ChromaDB              Repository Retrieval
         │                           │
         └─────────────┬─────────────┘
                       ▼
-              Repository Scanner
-                      │
-                      ▼
-               Repository Filter
-                      │
-                      ▼
-                Document Loader
-                      │
-                      ▼
-                 Text Splitter
-                      │
-                      ▼
-              Embedding Provider
-                      │
-                      ▼
-                   ChromaDB
-                      │
-                      ▼
-              LangGraph Workflow
-                      │
-                      ▼
-              Initialize Query
-                      │
-                      ▼
-                  Retriever
-                      │
-                      ▼
-              Retrieval Grader
-                      │
-             ┌────────┴────────┐
-             │                 │
-          Relevant         Irrelevant
-             │                 │
-             ▼                 ▼
-      Answer Generator     Query Rewriter
-             │                 │
-             ▼                 │
-            END        ────────┘
+             Grounded Engineering Answer
 ```
+
+The frontend is intentionally lightweight.
+
+Most of the system intelligence lives inside the backend through repository ingestion, semantic retrieval, workflow orchestration, and grounded answer generation.
 
 ---
 
-# 🧩 LangGraph State
+# 📂 Repository Ingestion Pipeline
 
-ForgeAI uses a shared graph state to coordinate workflow execution.
+Before a repository becomes searchable, ForgeAI converts it into a structured semantic knowledge base.
 
-```python
-class ForgeState(MessagesState):
+<p align="center">
 
-    repository_name: str
+<img src="docs/ingestion-pipeline.png"/>
 
-    question: str
+</p>
 
-    retrieval_query: str
-
-    documents: list[Document]
-
-    answer: str
-
-    retrieval_grade: str
-
-    retry_count: int
-```
-
-Each graph node reads the state fields it requires and writes its result back into the shared state.
-
-Example state evolution:
+The ingestion pipeline consists of multiple independent stages.
 
 ```text
-Input
-↓
-question
-repository_name
-
-Initialize
-↓
-retrieval_query
-retry_count
-
-Retrieve
-↓
-documents
-
-Grade
-↓
-retrieval_grade
-
-Rewrite
-↓
-retrieval_query updated
-retry_count incremented
-
-Generate
-↓
-answer
+GitHub Repository / Local Repository
+                │
+                ▼
+        Repository Scanner
+                │
+                ▼
+      Repository File Filter
+                │
+                ▼
+         Document Loader
+                │
+                ▼
+       Metadata Enrichment
+                │
+                ▼
+ Recursive Character Chunking
+                │
+                ▼
+      Embedding Generation
+                │
+                ▼
+ Repository-specific Chroma Collection
 ```
+
+Each stage focuses on one responsibility before passing data to the next stage.
+
+This modular architecture allows every component to evolve independently.
 
 ---
 
-# 🧠 LangGraph Nodes
+## Repository Scanner
 
-ForgeAI currently contains the following workflow nodes.
-
-```text
-Initialize Query
-      │
-      ▼
-Retrieve Documents
-      │
-      ▼
-Grade Retrieval
-      │
-      ├── Relevant → Generate Answer
-      │
-      └── Irrelevant → Rewrite Query
-                             │
-                             ▼
-                      Retrieve Documents
-```
-
-### Initialize Query
-
-Initializes internal graph execution state.
+The scanner recursively traverses the repository and discovers every candidate source file.
 
 Responsibilities:
 
-- copy the original question into the retrieval query
-- initialize the retry counter
+- recursive directory traversal
+- repository discovery
+- file enumeration
+
+The scanner intentionally avoids reading file contents.
+
+Its only responsibility is discovering files.
 
 ---
 
-### Retrieve Documents
+## Repository File Filter
 
-Performs semantic retrieval against the repository's ChromaDB collection.
+Not every repository file is useful for semantic retrieval.
 
-The node searches using the mutable `retrieval_query`.
+ForgeAI filters directories and generated files such as:
+
+- `.git`
+- `node_modules`
+- virtual environments
+- compiled artifacts
+- lock files
+- unsupported extensions
+
+Filtering reduces vector database noise while improving retrieval quality.
 
 ---
 
-### Grade Retrieval
+## Document Loader
 
-Evaluates whether the retrieved repository context is relevant to the original user question.
+Each supported source file is converted into a LangChain `Document`.
 
-The node stores the decision in:
+Besides file content, ForgeAI preserves repository metadata.
+
+### Preserved Metadata
 
 ```text
-retrieval_grade
+file_name
+
+relative_path
+
+parent_directory
+
+extension
+
+file_size
+
+last_modified
+
+source
 ```
 
----
+Repository metadata enables:
 
-### Rewrite Query
-
-Rewrites failed semantic retrieval queries.
-
-The node preserves the original user intent while attempting a different repository-oriented retrieval strategy.
-
----
-
-### Generate Answer
-
-Generates the final repository-grounded technical explanation.
-
-The generator uses:
-
-- original user question
-- retrieved repository context
-
-The answer is structured around:
-
-- Purpose
-- How It Works
-- Design Reasoning
-- Pipeline Position
+- repository exploration
+- evidence tracing
+- source attribution
+- repository reconstruction
+- grounded explanations
 
 ---
 
-# 💡 Example Questions
+## Semantic Chunking
 
-ForgeAI can answer repository-level engineering questions such as:
+Large source files exceed LLM context windows.
+
+ForgeAI uses recursive character chunking to divide source files into semantically meaningful chunks before embedding.
+
+Chunking improves:
+
+- retrieval precision
+- embedding quality
+- context relevance
+- retrieval efficiency
+
+---
+
+## Embedding Generation
+
+Every chunk is transformed into a vector representation using an embedding model.
+
+These embeddings capture semantic meaning rather than lexical similarity.
+
+ForgeAI currently supports local embedding generation through Ollama while remaining provider-agnostic.
+
+---
+
+## Repository-specific Vector Storage
+
+Each indexed repository receives its own independent ChromaDB collection.
 
 ```text
-How is the YouTube transcript generated?
+YT-AI-Copilot
+        │
+        ▼
+Collection A
 
-How does RepositoryService use RepositoryScanner?
+--------------------------
 
-Why does EmbeddingModelProvider exist as a wrapper?
+ForgeAI
+        │
+        ▼
+Collection B
 
-How does the retrieval pipeline work?
+--------------------------
 
-What happens after the repository is uploaded?
-
-Which component creates the vector store?
-
-How is conversation memory implemented?
-
-Why is the embedding provider separated from ChromaDB?
+Simon Game
+        │
+        ▼
+Collection C
 ```
 
-ForgeAI retrieves relevant source code and explains both implementation and engineering reasoning.
+Repository isolation provides several advantages:
+
+- workspace switching
+- independent repository indexes
+- simpler retrieval
+- cleaner lifecycle management
+- no cross-repository contamination
 
 ---
 
-# 🛠️ Tech Stack
+# 🧠 Self-Corrective RAG Workflow
 
-| Layer | Technology |
-|---|---|
-| Backend | FastAPI |
-| AI Framework | LangChain |
-| Workflow Orchestration | LangGraph |
-| Vector Database | ChromaDB |
-| Embeddings | Ollama Embeddings |
-| Embedding Model | embeddinggemma |
-| LLM Integration | Configurable LLM Provider |
-| Repository Integration | Git |
-| Language | Python |
+Traditional Retrieval-Augmented Generation follows a straightforward pipeline.
+
+```text
+Question
+      │
+      ▼
+Retrieve
+      │
+      ▼
+Generate Answer
+```
+
+ForgeAI introduces an intermediate reasoning stage.
+
+Instead of assuming retrieved context is sufficient, the workflow evaluates retrieval quality before answer generation.
+
+<p align="center">
+
+<img src="docs/langgraph-workflow.png"/>
+
+</p>
+
+```text
+Question
+      │
+      ▼
+Retrieve Repository Context
+      │
+      ▼
+Evaluate Retrieval
+      │
+      ├──────── Relevant ───────► Generate Answer
+      │
+      ▼
+Rewrite Retrieval Query
+      │
+      ▼
+Retrieve Again
+```
+
+This iterative workflow reduces weak retrieval while improving repository grounding.
+
+---
+
+# 🔄 LangGraph Workflow
+
+ForgeAI uses LangGraph to orchestrate workflow execution.
+
+Each node performs one clearly defined task.
+
+```text
+START
+   │
+   ▼
+Initialize Query
+   │
+   ▼
+Retrieve Documents
+   │
+   ▼
+Grade Retrieval
+   │
+   ├────────► Generate Answer
+   │
+   ▼
+Rewrite Query
+   │
+   ▼
+Retrieve Documents
+```
+
+Rather than embedding workflow logic inside prompts, execution is controlled explicitly through graph edges and routing functions.
+
+---
+
+# 🧠 Workflow State
+
+LangGraph maintains a shared state throughout graph execution.
+
+The state contains information such as:
+
+- active repository
+- original question
+- retrieval query
+- retrieved documents
+- retrieval grade
+- retry counter
+- generated answer
+
+Each node:
+
+- reads only the state it requires
+- performs one operation
+- writes its result back into the shared state
+
+Explicit state management makes workflow execution:
+
+- observable
+- deterministic
+- extensible
+- easier to debug
+
+---
+
+# 🔍 Repository Retrieval Pipeline
+
+Repository retrieval is more than vector search.
+
+The retrieval workflow consists of multiple stages.
+
+```text
+User Question
+        │
+        ▼
+Semantic Retrieval
+        │
+        ▼
+Cross-file Context Expansion
+        │
+        ▼
+Retrieval Evaluation
+        │
+        ▼
+Evidence Ranking
+        │
+        ▼
+Grounded Answer Generation
+```
+
+Instead of relying on a single retrieval step, ForgeAI progressively refines repository context before generation.
+
+---
+
+# 📂 Multi-Repository Workspace
+
+ForgeAI supports multiple indexed repositories simultaneously.
+
+Each repository maintains:
+
+- independent vector collection
+- isolated retrieval context
+- separate semantic index
+- dedicated workspace
+
+Switching repositories does not require rebuilding embeddings or restarting the application.
+
+The active repository determines which semantic collection participates in retrieval.
+
+---
+
+# ⭐ Engineering Design Principles
+
+ForgeAI emphasizes production-inspired backend architecture.
+
+---
+
+## Separation of Concerns
+
+Every subsystem owns one clearly defined responsibility.
+
+```text
+Repository Scanner
+
+↓
+
+Repository Filter
+
+↓
+
+Document Loader
+
+↓
+
+Chunking
+
+↓
+
+Embedding Generation
+
+↓
+
+Vector Store
+
+↓
+
+Retriever
+
+↓
+
+LangGraph
+
+↓
+
+LLM
+```
+
+No component performs multiple unrelated tasks.
+
+---
+
+## Explicit Workflow State
+
+Workflow execution is driven through explicit graph state instead of hidden prompt variables.
+
+This makes execution transparent and easier to debug.
+
+---
+
+## Deterministic Routing
+
+LLMs produce reasoning signals.
+
+Python routing functions determine workflow transitions.
+
+Separating reasoning from execution makes workflow behavior predictable.
+
+---
+
+## Repository Isolation
+
+Each repository receives an independent semantic index.
+
+This enables:
+
+- cleaner retrieval
+- safer indexing
+- independent lifecycle management
+- multi-repository workspaces
+
+---
+
+## Bounded Agentic Execution
+
+ForgeAI limits query rewrite attempts through a retry counter.
+
+This prevents:
+
+- infinite graph execution
+- unnecessary LLM calls
+- uncontrolled latency
+- unpredictable execution cost
+
+Every workflow is guaranteed to terminate.
+
+# 🛠️ Technology Stack
+
+ForgeAI combines modern AI engineering tools with a modular backend architecture.
+
+| Layer | Technologies |
+|--------|--------------|
+| **Frontend** | Next.js, React, Tailwind CSS |
+| **Backend** | FastAPI, Python |
+| **AI Framework** | LangChain, LangGraph |
+| **LLM Provider** | Groq (Llama 3.1), Configurable LLM Provider |
+| **Embeddings** | Ollama (embeddinggemma) |
+| **Vector Database** | ChromaDB |
+| **Repository Integration** | GitPython |
+| **Validation** | Pydantic |
+| **Deployment** | Vercel, Render |
+| **Version Control** | Git, GitHub |
 
 ---
 
 # 📁 Project Structure
 
 ```text
-backend/
+ForgeAI
 │
-├── app/
-│   │
-│   ├── ai/
+├── backend
+│   ├── app
+│   │   ├── ai
+│   │   │   ├── graph
+│   │   │   ├── ingestion
+│   │   │   ├── llm
+│   │   │   ├── prompts
+│   │   │   ├── retrieval
+│   │   │   └── vectorstore
 │   │   │
-│   │   ├── embeddings/
-│   │   │
-│   │   ├── graph/
-│   │   │   ├── edges/
-│   │   │   ├── nodes/
-│   │   │   ├── builder.py
-│   │   │   └── state.py
-│   │   │
-│   │   ├── ingestion/
-│   │   ├── llm/
-│   │   ├── prompts/
-│   │   ├── retrieval/
-│   │   └── vectorstore/
+│   │   ├── api
+│   │   ├── config
+│   │   ├── integrations
+│   │   ├── services
+│   │   ├── schemas
+│   │   └── core
 │   │
-│   ├── api/
-│   │   └── routes/
-│   │
-│   ├── config/
-│   │
-│   ├── integrations/
-│   │   └── github/
-│   │
-│   ├── services/
-│   │
-│   └── main.py
+│   ├── tests
+│   └── requirements.txt
 │
-├── repositories/
+├── frontend
+│   ├── app
+│   ├── components
+│   ├── context
+│   ├── hooks
+│   ├── services
+│   ├── utils
+│   └── public
 │
-└── tests/
+├── docs
+├── screenshots
+├── README.md
+└── LICENSE
 ```
 
 ---
 
-# 🧠 Engineering Design Principles
+# ⚡ Getting Started
 
-ForgeAI is intentionally designed around production-oriented software engineering principles.
+## 1. Clone the Repository
 
-## Separation of Concerns
+```bash
+git clone https://github.com/Shlokm13/ForgeAI.git
 
-Each component has one responsibility.
+cd ForgeAI
+```
+
+---
+
+## 2. Backend Setup
+
+Create a virtual environment.
+
+```bash
+cd backend
+
+python -m venv venv
+```
+
+Activate it.
+
+### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+Install dependencies.
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 3. Configure Environment Variables
+
+Create a `.env` file inside the backend directory.
+
+```env
+GROQ_API_KEY=YOUR_API_KEY
+
+OLLAMA_BASE_URL=http://localhost:11434
+```
+
+---
+
+## 4. Start Ollama
+
+Pull the embedding model.
+
+```bash
+ollama pull embeddinggemma
+```
+
+Run Ollama.
+
+```bash
+ollama serve
+```
+
+---
+
+## 5. Start the Backend
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Backend runs on
 
 ```text
-Scanner
-→ discovers files
-
-Filter
-→ removes unwanted files
-
-Loader
-→ reads source code
-
-Splitter
-→ creates chunks
-
-Embedding Provider
-→ configures embedding model
-
-Chroma Service
-→ manages vector storage
-
-Retriever
-→ retrieves repository context
-
-LangGraph
-→ orchestrates workflow execution
+http://localhost:8000
 ```
 
 ---
 
-## Dependency Isolation
+## 6. Frontend Setup
 
-External AI providers are wrapped behind provider classes.
+```bash
+cd frontend
 
-Example:
+npm install
+
+npm run dev
+```
+
+Frontend runs on
 
 ```text
-EmbeddingModelProvider
-        │
-        ▼
-OllamaEmbeddings
+http://localhost:3000
 ```
 
-The rest of the ingestion pipeline does not depend directly on Ollama.
+---
 
-This allows the embedding provider to be replaced without modifying downstream components.
+# 📡 API Overview
+
+ForgeAI exposes a REST API for repository indexing and repository-aware question answering.
+
+| Endpoint | Description |
+|-----------|-------------|
+| `POST /repository/upload/local` | Index a local repository |
+| `POST /repository/upload/github` | Clone and index a GitHub repository |
+| `GET /repository/list` | List indexed repositories |
+| `GET /repository/files/{repository}` | Inspect indexed repository files |
+| `POST /chat` | Ask repository-aware engineering questions |
 
 ---
 
-## Explicit Workflow State
+# 💬 Example Questions
 
-The LangGraph workflow stores execution data explicitly.
+Once a repository has been indexed, ForgeAI can answer questions such as:
 
-This makes the system:
-
-- easier to debug
-- easier to observe
-- easier to extend
-- suitable for cyclic AI workflows
-
----
-
-## Deterministic Routing
-
-LLMs generate decision signals.
-
-Deterministic Python routing functions control graph execution.
+### Repository Architecture
 
 ```text
-LLM Grader
-↓
-retrieval_grade
-
-Router
-↓
-generate OR rewrite
+Explain the architecture of this repository.
 ```
-
-This prevents workflow control logic from being hidden inside prompts.
-
----
-
-## Bounded Agentic Loops
-
-Every cyclic AI workflow must have a termination condition.
-
-ForgeAI limits query rewrite attempts to five retries.
-
-This prevents:
-
-- infinite execution
-- uncontrolled LLM calls
-- unnecessary embedding queries
-- unpredictable latency
-
----
-
-# 🗺️ Development Roadmap
-
-## Phase 1 — Repository Intelligence Layer
-
-- [x] Repository scanning
-- [x] Repository filtering
-- [x] Document loading
-- [x] Semantic chunking
-- [x] Embedding generation
-- [x] ChromaDB persistence
-- [x] Repository-specific collections
-- [x] Semantic retrieval
-- [x] Repository-grounded answer generation
-- [x] GitHub repository ingestion
-- [x] Git pull support
-
----
-
-## Phase 2 — Self-Corrective RAG
-
-- [x] LangGraph state
-- [x] Query initialization
-- [x] Retrieval node
-- [x] Retrieval grading
-- [x] Conditional routing
-- [x] Query rewriting
-- [x] Retrieval retry loop
-- [x] Retry guard
-- [x] Safe graph termination
-
----
-
-## Phase 3 — Software Engineering Intelligence
-
-- [ ] Repository architecture analysis
-- [ ] Component relationship reasoning
-- [ ] Code flow tracing
-- [ ] Debugging intelligence
-- [ ] Engineering design analysis
-- [ ] Interview-oriented explanations
-
----
-
-## Phase 4 — Multi-Agent Engineering Mentor
-
-- [ ] Architecture Agent
-- [ ] Debugging Agent
-- [ ] Code Review Agent
-- [ ] Interview Agent
-- [ ] Agent routing
-- [ ] Shared repository context
-
----
-
-## Phase 5 — Developer Experience
-
-- [ ] Interactive frontend
-- [ ] Repository dashboard
-- [ ] Repository selection
-- [ ] Conversation history
-- [ ] Source navigation
-- [ ] Graph execution visibility
-
----
-
-# 🎯 Project Goal
-
-ForgeAI is not designed to be another generic code chatbot.
-
-The goal is to build an AI system that can:
 
 ```text
-Understand a repository
-        ↓
-Retrieve implementation context
-        ↓
-Evaluate retrieval quality
-        ↓
-Self-correct failed retrieval
-        ↓
-Reason about software architecture
-        ↓
-Explain engineering decisions
-        ↓
-Mentor developers through real codebases
+How are services organized?
 ```
 
-ForgeAI focuses on demonstrating production-oriented GenAI engineering concepts including:
+```text
+What design pattern is used here?
+```
 
-- Retrieval-Augmented Generation
-- Self-Corrective RAG
-- LangGraph orchestration
-- cyclic AI workflows
-- semantic repository indexing
-- vector database isolation
-- query rewriting
-- LLM-based grading
-- deterministic routing
-- bounded agentic execution
+---
+
+### Implementation
+
+```text
+How does RepositoryService coordinate ingestion?
+```
+
+```text
+Explain the upload pipeline.
+```
+
+```text
+How are embeddings generated?
+```
+
+```text
+How does repository switching work?
+```
+
+---
+
+### AI Pipeline
+
+```text
+How does LangGraph orchestrate execution?
+```
+
+```text
+Explain query rewriting.
+```
+
+```text
+How are retrieved documents graded?
+```
+
+```text
+Where does the final answer come from?
+```
+
+---
+
+### Code Understanding
+
+```text
+Where is authentication implemented?
+```
+
+```text
+Which files manage repository uploads?
+```
+
+```text
+How is semantic retrieval implemented?
+```
+
+```text
+Where is ChromaDB initialized?
+```
+
+---
+
+# 🚀 Future Roadmap
+
+## Repository Intelligence
+
+- [ ] Incremental repository indexing
+- [ ] Repository update detection
+- [ ] Symbol-aware retrieval
+- [ ] AST-assisted repository understanding
+- [ ] Call graph analysis
+
+---
+
+## AI Workflow
+
+- [ ] Hybrid retrieval
+- [ ] Context compression
+- [ ] Streaming LangGraph execution
+- [ ] Retrieval evaluation dashboard
+- [ ] Answer confidence estimation
+
+---
+
+## Developer Experience
+
+- [ ] Docker support
+- [ ] CI/CD pipeline
+- [ ] Repository benchmarking
+- [ ] One-click deployment
+- [ ] Multi-user workspaces
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome.
+
+If you'd like to improve ForgeAI:
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Commit your changes.
+4. Submit a pull request.
+
+Please keep changes modular and aligned with the existing architecture.
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+See the `LICENSE` file for details.
+
+---
+
+# 🙌 Acknowledgements
+
+ForgeAI builds upon several outstanding open-source projects.
+
+Special thanks to:
+
+- LangChain
+- LangGraph
+- FastAPI
+- ChromaDB
+- Ollama
+- Groq
+- Next.js
+
+for making modern AI engineering accessible.
 
 ---
 
 # 👨‍💻 Author
 
-**Shlok Mishra**
+## Shlok Nitesh Mishra
 
-Built as a production-oriented GenAI engineering project focused on repository intelligence, agentic workflows, and software engineering mentorship.
+B.Tech Information Technology  
+International Institute of Information Technology, Bhubaneswar
+
+- GitHub: https://github.com/Shlokm13
+- LinkedIn: https://linkedin.com/in/shlok-mishra13
+
+---
+
+<p align="center">
+
+⭐ If you found ForgeAI interesting, consider starring the repository.
+
+Built with ❤️ while exploring modern AI Engineering.
+
+</p>
